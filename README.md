@@ -138,8 +138,8 @@ MyBookSpace/
 
 ---
 
-## Default Credentials (from seed data)
+## Default Credentials
 
-Check the SQL file for seeded accounts, or register a new user through the UI. A librarian account must be created directly in the database or by an existing librarian.
+Register a new user through the UI. A librarian account must be created directly in the database or by an existing librarian.
 
 ---
