@@ -1,0 +1,85 @@
+<section id="admin-manage-librarians" class="admin-manage-librarians">
+  <div class="container-fluid">
+    <div class="mb-5">
+      <h2>Librarians</h2>
+      <button class="btn btn-primary my-2" data-bs-toggle="modal" data-bs-target="#addLibrarianModal">Add New Librarian</button>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Surname</th>
+            <th>Date of Birth</th>
+            <th>Phone</th>
+            <th>Email</th>
+            <th>Employment Date</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="librarians-table-body"></tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<div class="modal fade" id="addLibrarianModal" tabindex="-1" aria-labelledby="addLibrarianModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addLibrarianModalLabel">Add New Librarian</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="addLibrarianForm">
+          <div class="mb-3">
+            <label for="librarianName" class="form-label">Name</label>
+            <input type="text" class="form-control" id="librarianName" name="name" required>
+          </div>
+          <div class="mb-3">
+            <label for="librarianSurname" class="form-label">Surname</label>
+            <input type="text" class="form-control" id="librarianSurname" name="surname" required>
+          </div>
+          <div class="mb-3">
+            <label for="librarianEmail" class="form-label">Email</label>
+            <input type="email" class="form-control" id="librarianEmail" name="email" required>
+          </div>
+          <div class="mb-3">
+            <label for="librarianPassword" class="form-label">Password</label>
+            <input type="password" class="form-control" id="librarianPassword" name="password" required minlength="8">
+          </div>
+          <div class="mb-3">
+            <label for="librarianDateOfBirth" class="form-label">Date of Birth</label>
+            <input type="date" class="form-control" id="librarianDateOfBirth" name="date_of_birth">
+          </div>
+          <div class="mb-3">
+            <label for="librarianPhone" class="form-label">Phone</label>
+            <input type="tel" class="form-control" id="librarianPhone" name="phone">
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            <button type="submit" class="btn btn-primary">Add Librarian</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  $(document).ready(() => {
+    if (window.location.hash.includes('#manage-librarians')) {
+      if (typeof ManageLibrariansController !== 'undefined') {
+        ManageLibrariansController.init();
+      }
+    }
+
+    $(window).on('hashchange', () => {
+      if (window.location.hash.includes('#manage-librarians')) {
+        if (typeof ManageLibrariansController !== 'undefined') {
+          setTimeout(() => {
+            ManageLibrariansController.init();
+          }, 100);
+        }
+      }
+    });
+  });
+</script>

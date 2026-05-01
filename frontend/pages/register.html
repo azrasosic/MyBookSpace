@@ -1,0 +1,58 @@
+<section id="contact" class="contact section">
+  <div class="container" data-aos="fade-up" data-aos-delay="100">
+    <div class="col-lg-6 mx-auto">
+      <form id="registerForm" class="php-email-form">
+        <div class="text-center mb-5">
+          <p class="lead fw-normal text-muted mb-0">Want to join MyBookSpace?</p>
+          <h3 class="fw-bolder">Fill out the form and register.</h3>
+        </div>
+        <div class="row gy-4">
+          <div class="col-md-6">
+            <input type="text" name="name" class="form-control" placeholder="Your Name" required>
+          </div>
+
+          <div class="col-md-6">
+            <input type="text" name="surname" class="form-control" placeholder="Your Surname" required>
+          </div>
+
+          <div class="col-md-12">
+            <input type="date" class="form-control" name="date_of_birth" placeholder="Date of Birth" required>
+          </div>
+
+          <div class="col-md-12">
+            <input type="text" class="form-control" name="phone" placeholder="Your Phone" required>
+          </div>
+
+          <div class="col-md-12">
+            <input type="email" class="form-control" name="email" placeholder="Your Email" required>
+          </div>
+
+          <div class="col-md-12">
+            <input type="password" class="form-control" name="password" placeholder="Enter Password" required>
+          </div>
+
+          <div class="col-md-12">
+            <input type="password" class="form-control" name="confirm_password" placeholder="Confirm Password" required>
+          </div>
+
+          <div class="col-md-12">
+            <button type="submit" class="btn btn-primary w-100">Register</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<script type="text/javascript">
+  $(document).ready(() => {
+    if (typeof UserController !== 'undefined') {
+      UserController.init();
+    }
+    $(window).on('hashchange', () => {
+      if (typeof UserView !== 'undefined') {
+        UserView.updateNavigation();
+      }
+    });
+  });
+</script>
