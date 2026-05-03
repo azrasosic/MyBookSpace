@@ -1,0 +1,12 @@
+<div id="book-details-container"></div>
+
+<script type="text/javascript">
+  $(document).ready(() => {
+    if (typeof BookView !== 'undefined') {
+      BookView.init();
+    }
+    if (typeof BookController !== 'undefined') {
+      BookController.init();
+    }
+  });
+</script>

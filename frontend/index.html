@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>MyBookSpace</title>
+
+  <link rel="icon" type="image/x-icon" href="assets/img/favicon.ico">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="assets/vendor/aos/aos.css" rel="stylesheet">
+  <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+  <link href="assets/css/main.css" rel="stylesheet">
+  <link rel="stylesheet" href="./assets/css/spapp.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.blockUI/2.70/jquery.blockUI.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+  <script src="./assets/js/jquery.spapp.js"></script>
+
+  <script src="utils/constants.js"></script>
+  <script src="utils/utils.js"></script>
+  <script src="utils/rest-client.js"></script>
+  <script src="services/ManageAuthorsService.js"></script>
+  <script src="services/ManageBorrowingsService.js"></script>
+  <script src="services/ManageLibrariansService.js"></script>
+
+  <script src="js/models/BookModel.js"></script>
+  <script src="js/views/BookView.js"></script>
+  <script src="js/controllers/BookController.js"></script>
+
+  <script src="js/models/ProfileModel.js"></script>
+  <script src="js/views/ProfileView.js"></script>
+  <script src="js/controllers/ProfileController.js"></script>
+
+  <script src="js/models/UserModel.js"></script>
+  <script src="js/views/UserView.js"></script>
+  <script src="js/controllers/UserController.js"></script>
+
+  <script src="js/models/ManageBooksModel.js"></script>
+  <script src="js/views/ManageBooksView.js"></script>
+  <script src="js/controllers/ManageBooksController.js"></script>
+
+  <script src="js/models/ManageAuthorsModel.js"></script>
+  <script src="js/views/ManageAuthorsView.js"></script>
+  <script src="js/controllers/ManageAuthorsController.js"></script>
+
+  <script src="js/models/ManageLibrariansModel.js"></script>
+  <script src="js/views/ManageLibrariansView.js"></script>
+  <script src="js/controllers/ManageLibrariansController.js"></script>
+
+  <script src="js/models/ManageBorrowingsModel.js"></script>
+  <script src="js/views/ManageBorrowingsView.js"></script>
+  <script src="js/controllers/ManageBorrowingsController.js"></script>
+
+</head>
+
+<body class="index-page">
+
+  <header id="header" class="header sticky-top">
+
+    <div class="branding">
+
+      <div class="container position-relative d-flex align-items-center justify-content-between">
+        <a href="#books" class="logo d-flex align-items-center">
+
+          <img src="assets/img/logo.png" alt="MyBookSpace">
+
+        </a>
+
+        <nav id="navmenu" class="navmenu">
+          <ul id="nav-menu">
+
+          </ul>
+          <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+        </nav>
+
+      </div>
+
+    </div>
+
+  </header>
+
+  <section id="pageContent">
+    <main id="spapp" role="main">
+      <section id="books" data-load="pages/books.html"></section>
+      <section id="manage-books" data-load="pages/manage-books.html"></section>
+      <section id="manage-authors" data-load="pages/manage-authors.html"></section>
+      <section id="manage-borrowings" data-load="pages/manage-borrowings.html"></section>
+      <section id="manage-librarians" data-load="pages/manage-librarians.html"></section>
+      <section id="contact" data-load="pages/contact.html"></section>
+      <section id="register" data-load="pages/register.html"></section>
+      <section id="login" data-load="pages/login.html"></section>
+      <section id="profile" data-load="pages/profile.html"></section>
+      <section id="book-details" data-load="pages/book-details.html"></section>
+    </main>
+  </section>
+
+  <footer id="footer" class="footer position-relative dark-background">
+
+    <div class="container footer-top">
+      <div class="row gy-4">
+        <div class="col-lg-4 col-md-12 footer-about">
+          <p>157 William St</p>
+          <p>New York, NY 10038</p>
+        </div>
+
+        <div class="col-lg-4 col-md-12 footer-about">
+          <p><strong>Phone:</strong> <span>+1 5589 55488 55</span></p>
+          <p><strong>Email:</strong> <span>info@example.com</span></p>
+        </div>
+
+        <div class="col-lg-4 col-md-12">
+          <p></p>
+          <div class="social-links d-flex">
+            <a href=""><i class="bi bi-twitter-x"></i></a>
+            <a href=""><i class="bi bi-facebook"></i></a>
+            <a href=""><i class="bi bi-instagram"></i></a>
+            <a href=""><i class="bi bi-linkedin"></i></a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="container copyright text-center mt-4">
+      <p>© <span>Copyright</span> <strong class="px-1 sitename">MyBookSpace</strong> <span>All Rights Reserved</span></p>
+      <div class="credits">
+        <!-- All the links in the footer should remain intact. -->
+        <!-- You can delete the links only if you've purchased the pro version. -->
+        <!-- Licensing information: https://bootstrapmade.com/license/ -->
+        <!-- Purchase the pro version with working PHP/AJAX contact form: [buy-url] -->
+        Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+      </div>
+    </div>
+
+  </footer>
+
+  <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+  <div id="preloader"></div>
+
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/vendor/aos/aos.js"></script>
+  <script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
+  <script src="assets/vendor/waypoints/noframework.waypoints.js"></script>
+  <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
+  <script src="assets/vendor/imagesloaded/imagesloaded.pkgd.min.js"></script>
+  <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+  <script src="assets/js/main.js"></script>
+
+  <script>
+    const app = $.spapp({
+      defaultView: '#login',
+      templateDir: 'pages/',
+    });
+
+    app.route({
+      view: 'books',
+      load: 'books.html',
+    });
+
+    app.route({
+      view: 'manage-books',
+      load: 'manage-books.html',
+    });
+
+    app.route({
+      view: 'manage-authors',
+      load: 'manage-authors.html',
+    });
+
+    app.route({
+      view: 'manage-borrowings',
+      load: 'manage-borrowings.html',
+    });
+
+    app.route({
+      view: 'manage-librarians',
+      load: 'manage-librarians.html',
+    });
+
+    app.route({
+      view: 'contact',
+      load: 'contact.html',
+    });
+
+    app.route({
+      view: 'register',
+      load: 'register.html',
+    });
+
+    app.route({
+      view: 'login',
+      load: 'login.html',
+    });
+
+    app.route({
+      view: 'profile',
+      load: 'profile.html',
+    });
+
+    app.route({
+      view: 'book-details',
+      load: 'book-details.html',
+    });
+
+    app.run();
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    $(document).ready(() => {
+      if (typeof UserController !== 'undefined') {
+        console.log('Initializing UserController...');
+        UserController.init();
+      } else if (typeof UserService !== 'undefined') {
+        console.log('Using legacy UserService...');
+        UserService.init();
+      } else {
+        console.error('No user authentication system found!');
+      }
+
+      setTimeout(() => {
+        if (typeof UserView !== 'undefined') {
+          console.log('Updating navigation via UserView...');
+          UserView.updateNavigation();
+        } else if (typeof updateNavigation === 'function') {
+          console.log('Updating navigation via legacy function...');
+          updateNavigation();
+        } else {
+          console.error('No navigation system found!');
+        }
+      }, 300);
+
+      $(window).on('hashchange', () => {
+        console.log('Hash changed, updating navigation...');
+        setTimeout(() => {
+          if (typeof UserView !== 'undefined') {
+            UserView.updateNavigation();
+          } else if (typeof updateNavigation === 'function') {
+            updateNavigation();
+          }
+        }, 100);
+      });
+    });
+  </script>
+
+</body>
+</html>
