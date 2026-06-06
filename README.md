@@ -157,6 +157,7 @@ Expected output: 37 tests, 57 assertions, 0 failures.
 
 ## Project Structure
 
+```
 MyBookSpace/
 ├── backend/
 │   ├── dao/                  # Database access layer
@@ -181,6 +182,7 @@ MyBookSpace/
 ├── vendor/                   # Composer dependencies (not committed)
 ├── composer.json
 └── README.md
+```
 
 ---
 
