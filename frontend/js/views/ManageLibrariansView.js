@@ -24,9 +24,9 @@ var ManageLibrariansView = {
         '<td>' + (librarian.email || 'N/A') + '</td>' +
         '<td>' + employmentDate + '</td>' +
         '<td>' +
-        '<button class="btn btn-sm btn-danger" onclick="ManageLibrariansController.deleteLibrarian(' + librarian.id + ')">Delete</button>' +
+          '<button class="btn btn-sm btn-danger" onclick="ManageLibrariansController.deleteLibrarian(' + librarian.id + ')">Delete</button>' +
         '</td>' +
-        '</tr>';
+      '</tr>';
     }.bind(this));
 
     tableBody.innerHTML = html;
@@ -66,12 +66,12 @@ var ManageLibrariansView = {
     if (tableBody) {
       tableBody.innerHTML = '<tr>' +
         '<td colspan="7" class="text-center">' +
-        '<div class="spinner-border text-primary" role="status">' +
-        '<span class="visually-hidden">Loading...</span>' +
-        '</div>' +
-        '<p class="mt-2">Loading librarians...</p>' +
+          '<div class="spinner-border text-primary" role="status">' +
+            '<span class="visually-hidden">Loading...</span>' +
+          '</div>' +
+          '<p class="mt-2">Loading librarians...</p>' +
         '</td>' +
-        '</tr>';
+      '</tr>';
     }
   },
 
@@ -80,11 +80,11 @@ var ManageLibrariansView = {
     if (tableBody) {
       tableBody.innerHTML = '<tr>' +
         '<td colspan="7" class="text-center text-danger">' +
-        '<h5>Error loading librarians</h5>' +
-        '<p>' + (message || 'Unknown error') + '</p>' +
-        '<button class="btn btn-primary mt-2" onclick="ManageLibrariansController.loadLibrarians()">Retry</button>' +
+          '<h5>Error loading librarians</h5>' +
+          '<p>' + (message || 'Unknown error') + '</p>' +
+          '<button class="btn btn-primary mt-2" onclick="ManageLibrariansController.loadLibrarians()">Retry</button>' +
         '</td>' +
-        '</tr>';
+      '</tr>';
     }
   }
 };

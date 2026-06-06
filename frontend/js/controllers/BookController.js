@@ -14,7 +14,7 @@ var BookController = {
       $('.genre-filter-btn').removeClass('active');
       $(this).addClass('active');
 
-      const genre = $(this).data('genre');
+      var genre = $(this).data('genre');
       BookController.loadBooks(genre);
     });
     $('.genre-filter-btn[data-genre=""]').addClass('active');
@@ -23,7 +23,7 @@ var BookController = {
   setupBookDetails: function() {
     $(document).off('click', '.book-details-link').on('click', '.book-details-link', function(e) {
       e.preventDefault();
-      const bookId = $(this).data('book-id');
+      var bookId = $(this).data('book-id');
       localStorage.setItem('currentBookId', bookId);
       window.location.hash = 'book-details';
 
@@ -33,7 +33,8 @@ var BookController = {
     });
   },
 
-  loadBooks: function(genre = null) {
+  loadBooks: function(genre) {
+    if (genre === undefined) genre = null;
     BookModel.loadBooks(
       genre,
       function(response) {
@@ -57,10 +58,10 @@ var BookController = {
         }
       },
       function(xhr) {
-        let errorMessage = 'Failed to load books';
+        var errorMessage = 'Failed to load books';
         if (xhr.responseText) {
           try {
-            const errorData = JSON.parse(xhr.responseText);
+            var errorData = JSON.parse(xhr.responseText);
             errorMessage = errorData.error || errorData.message || xhr.responseText;
           } catch (e) {
             errorMessage = xhr.responseText;
@@ -82,7 +83,7 @@ var BookController = {
   },
 
   loadBookDetails: function() {
-    const bookId = localStorage.getItem('currentBookId');
+    var bookId = localStorage.getItem('currentBookId');
     if (!bookId || isNaN(bookId)) {
       $('#book-details-container').html(
         '<div class="alert alert-danger">' +
@@ -108,10 +109,10 @@ var BookController = {
         BookView.renderBookDetails(book);
       },
       function(xhr) {
-        let errorMessage = 'Error loading book details';
+        var errorMessage = 'Error loading book details';
         if (xhr.responseText) {
           try {
-            const errorData = JSON.parse(xhr.responseText);
+            var errorData = JSON.parse(xhr.responseText);
             errorMessage = errorData.error || errorData.message || xhr.responseText;
           } catch (e) {
             errorMessage = xhr.responseText;

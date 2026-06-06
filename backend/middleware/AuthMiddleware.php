@@ -13,20 +13,20 @@ class AuthMiddleware
             $token = substr($token, 7);
         }
         if (!$token) {
-            throw new Exception("Missing authentication token");
+            throw new Exception('Missing authentication token');
         }
 
         try {
             $decodedToken = JWT::decode($token, new Key(Config::JWT_SECRET(), 'HS256'));
             if (!isset($decodedToken->user)) {
-                throw new Exception("Invalid token structure");
+                throw new Exception('Invalid token structure');
             }
 
             Flight::set('user', $decodedToken->user);
             Flight::set('jwt_token', $token);
             return true;
         } catch (\Exception $e) {
-            throw new Exception("Token verification failed: " . $e->getMessage());
+            throw new Exception('Token verification failed: ' . $e->getMessage());
         }
     }
 
@@ -35,12 +35,12 @@ class AuthMiddleware
         $user = Flight::get('user');
 
         if ($user === null) {
-            error_log("User is null in authorizeRole");
+            error_log('User is null in authorizeRole');
             Flight::halt(401, 'User not authenticated');
         }
 
         if (!isset($user->role)) {
-            error_log("User object exists but no role: " . print_r($user, true));
+            error_log('User object exists but no role: ' . print_r($user, true));
             Flight::halt(500, 'User role not set in token');
         }
 
@@ -53,11 +53,11 @@ class AuthMiddleware
     {
         $user = Flight::get('user');
         if ($user === null) {
-            error_log("User is null in authorizeRoles");
+            error_log('User is null in authorizeRoles');
             Flight::halt(401, 'User not authenticated');
         }
         if (!isset($user->role)) {
-            error_log("User object: " . print_r($user, true));
+            error_log('User object: ' . print_r($user, true));
             Flight::halt(500, 'User role not set in token');
         }
 

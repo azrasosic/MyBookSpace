@@ -5,7 +5,7 @@ var ManageLibrariansModel = {
 
   checkAuth: function() {
     try {
-      const token = localStorage.getItem('user_token');
+      var token = localStorage.getItem('user_token');
 
       if (!token) {
         toastr.error('Please log in to access admin dashboard');
@@ -13,7 +13,7 @@ var ManageLibrariansModel = {
         return false;
       }
 
-      const decoded = Utils.parseJwt(token);
+      var decoded = Utils.parseJwt(token);
 
       if (!decoded || !decoded.user) {
         toastr.error('Invalid user data in token');
@@ -31,7 +31,6 @@ var ManageLibrariansModel = {
       }
 
       return true;
-
     } catch (e) {
       toastr.error('Invalid session');
       window.location.href = '#login';

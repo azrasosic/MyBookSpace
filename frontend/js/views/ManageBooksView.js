@@ -7,7 +7,7 @@ var ManageBooksView = {
     var tableBody = document.getElementById('books-table-body');
 
     if (!books || books.length === 0) {
-      tableBody.innerHTML = '<tr><td colspan="8" class="text-center">No books found</td></tr>';
+      tableBody.innerHTML = '<tr><td colspan="8" class="text-center">No books found<\/td><\/tr>';
       return;
     }
 
@@ -31,7 +31,7 @@ var ManageBooksView = {
         '<td>' + (book.publication_year || 'N/A') + '</td>' +
         '<td>' + (book.genre || 'N/A') + '</td>' +
         '<td>' + summary + '</td>' +
-        '<td><span class="badge ' + this.getStatusClass(book.status) + '">' + (book.status || 'Unknown') + '</span></td>' +
+        '<td><span class="badge ' + this.getStatusClass(book.status) + '">' + (book.status || 'Unknown') + '<\/span></td>' +
         '<td>' +
         '<button class="btn btn-sm btn-warning me-1" onclick="ManageBooksController.editBook(' + book.id + ')">Edit</button>' +
         '<button class="btn btn-sm btn-danger" ' + deleteButtonDisabled + ' onclick="ManageBooksController.deleteBook(' + book.id + ')" title="' + deleteButtonTitle + '">Delete</button>' +
@@ -156,21 +156,21 @@ var ManageBooksView = {
         '<span class="visually-hidden">Loading...</span>' +
         '</div>' +
         '<p class="mt-2">Loading books...</p>' +
-        '</td>' +
-        '</tr>';
+        '<\/td>' +
+        '<\/tr>';
     }
   },
 
   showError: function(message) {
     var tableBody = document.getElementById('books-table-body');
     if (tableBody) {
-      tableBody.innerHTML = '<tr>' +
+      tableBody.innerHTML = '<td>' +
         '<td colspan="8" class="text-center text-danger">' +
         '<h5>Error loading books</h5>' +
         '<p>' + (message || 'Unknown error') + '</p>' +
         '<button class="btn btn-primary mt-2" onclick="ManageBooksController.loadBooks()">Retry</button>' +
-        '</td>' +
-        '</tr>';
+        '<\/td>' +
+        '<\/tr>';
     }
   }
 };

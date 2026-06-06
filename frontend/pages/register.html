@@ -45,11 +45,11 @@
 </section>
 
 <script type="text/javascript">
-  $(document).ready(() => {
+  $(document).ready(function() {
     if (typeof UserController !== 'undefined') {
       UserController.init();
     }
-    $(window).on('hashchange', () => {
+    $(window).on('hashchange', function() {
       if (typeof UserView !== 'undefined') {
         UserView.updateNavigation();
       }

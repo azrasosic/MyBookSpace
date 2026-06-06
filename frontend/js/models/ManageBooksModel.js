@@ -5,7 +5,7 @@ var ManageBooksModel = {
   currentUserRole: null,
 
   checkAuth: function() {
-    const token = localStorage.getItem('user_token');
+    var token = localStorage.getItem('user_token');
 
     if (!token) {
       toastr.error('Please log in to access admin dashboard');
@@ -14,7 +14,7 @@ var ManageBooksModel = {
     }
 
     try {
-      const decoded = Utils.parseJwt(token);
+      var decoded = Utils.parseJwt(token);
       if (!decoded || !decoded.user) {
         toastr.error('Invalid user data in token');
         window.location.href = '#login';
@@ -31,7 +31,6 @@ var ManageBooksModel = {
       }
 
       return true;
-
     } catch (e) {
       toastr.error('Invalid session');
       window.location.href = '#login';
@@ -88,7 +87,9 @@ var ManageBooksModel = {
     } else if (book.author && book.author.name) {
       return book.author.name;
     } else if (book.author_id) {
-      var author = authors.find(function(a) { return a.id === book.author_id; });
+      var author = authors.find(function(a) {
+        return a.id === book.author_id;
+      });
       return author ? author.name : 'Unknown';
     }
     return 'Unknown';

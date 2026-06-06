@@ -23,7 +23,6 @@ Flight::route('GET /users', function () {
     Flight::auth_middleware()->authorizeRole(Roles::LIBRARIAN);
     try {
         $users = Flight::userService()->getAll();
-        // Remove passwords from response
         $users = array_map(function ($user) {
             unset($user['password']);
             return $user;
@@ -67,7 +66,7 @@ Flight::route('GET /users/@id', function ($id) {
     try {
         $user = Flight::userService()->getById($id);
         if ($user) {
-            unset($user['password']); // Remove password from response
+            unset($user['password']);
             Flight::json($user);
         } else {
             Flight::json(['error' => 'User not found'], 404);
@@ -333,10 +332,8 @@ Flight::route('DELETE /users/@id', function ($id) {
  * )
  */
 Flight::route('GET /profile', function () {
-    // Authenticate and allow both roles
     Flight::auth_middleware()->authorizeRoles([Roles::USER, Roles::LIBRARIAN]);
 
-    // Get the authenticated user from the token
     $authUser = Flight::get('user');
 
     if (!$authUser || !isset($authUser->id)) {
@@ -345,9 +342,172 @@ Flight::route('GET /profile', function () {
     }
 
     try {
-        // Pass the user ID and role to getFullProfile
         $profile = Flight::userService()->getFullProfile($authUser->id, $authUser->role);
         Flight::json($profile);
+    } catch (Exception $e) {
+        Flight::json(['error' => $e->getMessage()], 404);
+    }
+});
+
+/**
+ * @OA\Get(
+ *     path="/users/{id}/subscription",
+ *     tags={"subscription"},
+ *     summary="Get user subscription status",
+ *     operationId="getSubscriptionStatus",
+ *     @OA\Parameter(
+ *         name="id",
+ *         in="path",
+ *         required=true,
+ *         @OA\Schema(type="integer", example=1),
+ *         description="User ID"
+ *     ),
+ *     @OA\Response(
+ *         response=200,
+ *         description="Subscription status",
+ *         @OA\JsonContent(
+ *             @OA\Property(property="status", type="string", example="Active"),
+ *             @OA\Property(property="expiration_date", type="string", format="date", example="2025-12-31"),
+ *             @OA\Property(property="days_remaining", type="integer", example=30)
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=404,
+ *         description="User not found",
+ *         @OA\JsonContent(
+ *             @OA\Property(property="error", type="string", example="User not found")
+ *         )
+ *     ),
+ *     security={{"ApiKey": {}}}
+ * )
+ */
+Flight::route('GET /users/@id/subscription', function ($id) {
+    Flight::auth_middleware()->authorizeRoles([Roles::USER, Roles::LIBRARIAN]);
+    try {
+        $status = Flight::userService()->getSubscriptionStatus((int) $id);
+        Flight::json($status);
+    } catch (Exception $e) {
+        Flight::json(['error' => $e->getMessage()], 404);
+    }
+});
+
+/**
+ * @OA\Get(
+ *     path="/users/subscription/expiring-soon",
+ *     tags={"subscription"},
+ *     summary="Get users whose subscriptions expire soon (librarian only)",
+ *     operationId="getExpiringSoonUsers",
+ *     @OA\Response(
+ *         response=200,
+ *         description="List of users with expiring subscriptions",
+ *         @OA\JsonContent(
+ *             type="array",
+ *             @OA\Items(ref="#/components/schemas/User")
+ *         )
+ *     ),
+ *     security={{"ApiKey": {}}}
+ * )
+ */
+Flight::route('GET /users/subscription/expiring-soon', function () {
+    Flight::auth_middleware()->authorizeRole(Roles::LIBRARIAN);
+    try {
+        $users = Flight::userService()->getUsersExpiringSoon(7);
+        Flight::json($users);
+    } catch (Exception $e) {
+        Flight::json(['error' => $e->getMessage()], 500);
+    }
+});
+
+/**
+ * @OA\Get(
+ *     path="/users/subscription/expired",
+ *     tags={"subscription"},
+ *     summary="Get users with expired subscriptions (librarian only)",
+ *     operationId="getExpiredUsers",
+ *     @OA\Response(
+ *         response=200,
+ *         description="List of users with expired subscriptions",
+ *         @OA\JsonContent(
+ *             type="array",
+ *             @OA\Items(ref="#/components/schemas/User")
+ *         )
+ *     ),
+ *     security={{"ApiKey": {}}}
+ * )
+ */
+Flight::route('GET /users/subscription/expired', function () {
+    Flight::auth_middleware()->authorizeRole(Roles::LIBRARIAN);
+    try {
+        $users = Flight::userService()->getExpiredUsers();
+        Flight::json($users);
+    } catch (Exception $e) {
+        Flight::json(['error' => $e->getMessage()], 500);
+    }
+});
+
+/**
+ * @OA\Post(
+ *     path="/users/{id}/subscription/renew",
+ *     tags={"subscription"},
+ *     summary="Renew a user's subscription (librarian only)",
+ *     operationId="renewSubscription",
+ *     @OA\Parameter(
+ *         name="id",
+ *         in="path",
+ *         required=true,
+ *         @OA\Schema(type="integer", example=1),
+ *         description="User ID"
+ *     ),
+ *     @OA\RequestBody(
+ *         required=true,
+ *         @OA\JsonContent(
+ *             required={"expiration_date"},
+ *             @OA\Property(property="expiration_date", type="string", format="date", example="2026-12-31")
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=200,
+ *         description="Subscription renewed successfully",
+ *         @OA\JsonContent(
+ *             @OA\Property(property="success", type="boolean", example=true),
+ *             @OA\Property(property="message", type="string", example="Subscription renewed successfully")
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=400,
+ *         description="Invalid input",
+ *         @OA\JsonContent(
+ *             @OA\Property(property="error", type="string", example="expiration_date is required")
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=404,
+ *         description="User not found",
+ *         @OA\JsonContent(
+ *             @OA\Property(property="error", type="string", example="User not found")
+ *         )
+ *     ),
+ *     security={{"ApiKey": {}}}
+ * )
+ */
+Flight::route('POST /users/@id/subscription/renew', function ($id) {
+    Flight::auth_middleware()->authorizeRole(Roles::LIBRARIAN);
+    try {
+        $body = Flight::request()->getBody();
+        $data = json_decode($body, true);
+        $newExpDate = $data['expiration_date'] ?? '';
+        $authUser = Flight::get('user');
+        $librarianId = (int) $authUser->id;
+
+        if (empty($newExpDate)) {
+            Flight::json(['error' => 'expiration_date is required'], 400);
+            return;
+        }
+
+        Flight::userService()->renewSubscription((int) $id, $newExpDate, $librarianId);
+        Flight::json(['success' => true, 'message' => 'Subscription renewed successfully']);
+    } catch (InvalidArgumentException $e) {
+        Flight::json(['error' => $e->getMessage()], 400);
     } catch (Exception $e) {
         Flight::json(['error' => $e->getMessage()], 404);
     }

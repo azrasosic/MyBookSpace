@@ -23,14 +23,14 @@ class BaseDao
 
     public function getAll()
     {
-        $stmt = $this->connection->prepare("SELECT * FROM " . $this->table);
+        $stmt = $this->connection->prepare('SELECT * FROM ' . $this->table);
         $stmt->execute();
         return $stmt->fetchAll();
     }
 
     public function getById($id)
     {
-        $stmt = $this->connection->prepare("SELECT * FROM " . $this->table . " WHERE id = :id");
+        $stmt = $this->connection->prepare('SELECT * FROM ' . $this->table . ' WHERE id = :id');
         $stmt->bindParam(':id', $id);
         $stmt->execute();
         return $stmt->fetch();
@@ -38,9 +38,9 @@ class BaseDao
 
     public function insert($data)
     {
-        $columns = implode(", ", array_keys($data));
-        $placeholders = ":" . implode(", :", array_keys($data));
-        $sql = "INSERT INTO " . $this->table . " ($columns) VALUES ($placeholders)";
+        $columns = implode(', ', array_keys($data));
+        $placeholders = ':' . implode(', :', array_keys($data));
+        $sql = 'INSERT INTO ' . $this->table . ' (' . $columns . ') VALUES (' . $placeholders . ')';
         $stmt = $this->connection->prepare($sql);
         if ($stmt->execute($data)) {
             return $this->connection->lastInsertId();
@@ -50,12 +50,12 @@ class BaseDao
 
     public function update($id, $data)
     {
-        $fields = "";
+        $fields = '';
         foreach ($data as $key => $value) {
-            $fields .= "$key = :$key, ";
+            $fields .= $key . ' = :' . $key . ', ';
         }
-        $fields = rtrim($fields, ", ");
-        $sql = "UPDATE " . $this->table . " SET $fields WHERE id = :id";
+        $fields = rtrim($fields, ', ');
+        $sql = 'UPDATE ' . $this->table . ' SET ' . $fields . ' WHERE id = :id';
         $stmt = $this->connection->prepare($sql);
         $data['id'] = $id;
         return $stmt->execute($data);
@@ -63,7 +63,7 @@ class BaseDao
 
     public function delete($id)
     {
-        $stmt = $this->connection->prepare("DELETE FROM " . $this->table . " WHERE id = :id");
+        $stmt = $this->connection->prepare('DELETE FROM ' . $this->table . ' WHERE id = :id');
         $stmt->bindParam(':id', $id);
         return $stmt->execute();
     }

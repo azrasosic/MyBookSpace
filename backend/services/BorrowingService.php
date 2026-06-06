@@ -6,6 +6,7 @@ require_once __DIR__ . '/BaseService.php';
 require_once __DIR__ . '/../dao/BorrowingDao.php';
 require_once __DIR__ . '/BookService.php';
 require_once __DIR__ . '/UserService.php';
+require_once __DIR__ . '/ReservationService.php';
 
 class BorrowingService extends BaseService
 {
@@ -18,29 +19,34 @@ class BorrowingService extends BaseService
     public function returnBook($borrowingId, $returnDate)
     {
         if (empty($returnDate)) {
-            throw new InvalidArgumentException("Return date is required");
+            throw new InvalidArgumentException('Return date is required');
         }
 
         $borrowing = $this->getById($borrowingId);
         if (!$borrowing) {
-            throw new Exception("Borrowing record not found");
+            throw new Exception('Borrowing record not found');
         }
 
         if ($borrowing['status'] === 'Returned') {
-            throw new Exception("Book has already been returned");
+            throw new Exception('Book has already been returned');
         }
 
         if ($returnDate < $borrowing['borrow_date']) {
-            throw new InvalidArgumentException("Return date cannot be before borrow date");
+            throw new InvalidArgumentException('Return date cannot be before borrow date');
         }
 
-        return $this->dao->returnBook($borrowingId, $returnDate);
+        $result = $this->dao->returnBook($borrowingId, $returnDate);
+
+        $reservationService = new ReservationService();
+        $reservationService->notifyOnReturn((int) $borrowing['book_id']);
+
+        return $result;
     }
 
     public function getUserActiveBorrowings($userId)
     {
         if (empty($userId)) {
-            throw new InvalidArgumentException("User ID is required");
+            throw new InvalidArgumentException('User ID is required');
         }
         return $this->dao->getUserActiveBorrowings($userId);
     }
@@ -48,7 +54,7 @@ class BorrowingService extends BaseService
     public function borrowBook($bookId, $userId, $librarianId)
     {
         if (empty($bookId) || empty($userId) || empty($librarianId)) {
-            throw new InvalidArgumentException("Book ID, User ID, and Librarian ID are required");
+            throw new InvalidArgumentException('Book ID, User ID, and Librarian ID are required');
         }
 
         $bookService = new BookService();
@@ -56,21 +62,21 @@ class BorrowingService extends BaseService
 
         $book = $bookService->getById($bookId);
         if (!$book) {
-            throw new Exception("Book not found");
+            throw new Exception('Book not found');
         }
 
         if ($book['status'] !== 'Available') {
-            throw new Exception("Book is not available for borrowing");
+            throw new Exception('Book is not available for borrowing');
         }
 
         $user = $userService->getById($userId);
         if (!$user) {
-            throw new Exception("User not found");
+            throw new Exception('User not found');
         }
 
         $activeBorrowings = $this->getUserActiveBorrowings($userId);
         if (count($activeBorrowings) > 0) {
-            throw new Exception("User cannot borrow new books while having an active borrowing");
+            throw new Exception('User cannot borrow new books while having an active borrowing');
         }
 
         $borrowingData = [

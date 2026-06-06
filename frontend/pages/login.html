@@ -76,11 +76,11 @@
 </section>
 
 <script>
-const switchLoginTab = (tab) => {
-  const memberTab = document.getElementById('member-tab');
-  const librarianTab = document.getElementById('librarian-tab');
-  const memberForm = document.getElementById('member-login-form');
-  const librarianForm = document.getElementById('librarian-login-form');
+var switchLoginTab = function(tab) {
+  var memberTab = document.getElementById('member-tab');
+  var librarianTab = document.getElementById('librarian-tab');
+  var memberForm = document.getElementById('member-login-form');
+  var librarianForm = document.getElementById('librarian-login-form');
 
   memberTab.classList.remove('active');
   librarianTab.classList.remove('active');
@@ -98,11 +98,11 @@ const switchLoginTab = (tab) => {
 </script>
 
 <script type="text/javascript">
-  $(document).ready(() => {
+  $(document).ready(function() {
     if (typeof UserController !== 'undefined') {
       UserController.init();
     }
-    $(window).on('hashchange', () => {
+    $(window).on('hashchange', function() {
       if (typeof UserView !== 'undefined') {
         UserView.updateNavigation();
       }

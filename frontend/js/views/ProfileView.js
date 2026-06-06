@@ -85,9 +85,78 @@ var ProfileView = {
         '<th scope="row">Member Since</th>' +
         '<td>' + formatDate(user.date_joined) + '</td>' +
       '</tr>';
+
+      var subStatus = user.subscription_status || 'Expired';
+      var subExp = user.subscription_expiration_date ? formatDate(user.subscription_expiration_date) : 'N/A';
+      var badgeMap = { 'Active': 'success', 'Expiring Soon': 'warning', 'Expired': 'danger' };
+      var badge = '<span class="badge bg-' + (badgeMap[subStatus] || 'secondary') + '">' + subStatus + '<\/span>';
+      html += '<tr><th>Subscription</th><td>' + badge + ' (expires: ' + subExp + ')<\/td><\/tr>';
     }
 
     profileTable.innerHTML = html;
+    this.displaySubscriptionBanner(user);
+  },
+
+  displaySubscriptionBanner: function(user) {
+    var banner = document.getElementById('subscription-banner');
+    if (!banner || user.role === 'librarian') return;
+
+    var status = user.subscription_status || 'Expired';
+    var expDate = user.subscription_expiration_date;
+    var fmt = function(d) {
+      try {
+        return new Date(d).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+      } catch(e) {
+        return d;
+      }
+    };
+
+    if (status === 'Expiring Soon') {
+      banner.innerHTML = '<div class="alert alert-warning mt-3"><i class="bi bi-exclamation-triangle-fill me-2"><\/i>Your subscription is expiring on ' + fmt(expDate) + '. Please visit the library to renew.<\/div>';
+      banner.style.display = '';
+    } else if (status === 'Expired') {
+      banner.innerHTML = '<div class="alert alert-danger mt-3"><i class="bi bi-x-circle-fill me-2"><\/i>Your subscription has expired. Please visit the library to renew your membership before borrowing books.<\/div>';
+      banner.style.display = '';
+    } else {
+      banner.style.display = 'none';
+    }
+  },
+
+  displayUsersSubscriptions: function(users, filter) {
+    var wrapper = document.getElementById('users-subscription-table-wrapper');
+    if (!wrapper) return;
+
+    var filtered = filter && filter !== 'All'
+      ? users.filter(function(u) {
+          return u.subscription_status === filter;
+        })
+      : users;
+
+    if (filtered.length === 0) {
+      wrapper.innerHTML = '<div class="alert alert-info text-center">No users found for this filter.<\/div>';
+      return;
+    }
+
+    var fmt = function(d) {
+      if (!d) return 'N/A';
+      try {
+        return new Date(d).toLocaleDateString();
+      } catch(e) {
+        return d;
+      }
+    };
+    var badgeMap = { 'Active': 'success', 'Expiring Soon': 'warning', 'Expired': 'danger' };
+    var rows = filtered.map(function(u) {
+      return '<tr>' +
+        '<td>' + (u.name || '') + ' ' + (u.surname || '') + '</td>' +
+        '<td>' + (u.email || '') + '</td>' +
+        '<td><span class="badge bg-' + (badgeMap[u.subscription_status] || 'secondary') + '">' + (u.subscription_status || 'Unknown') + '<\/span></td>' +
+        '<td>' + fmt(u.subscription_expiration_date) + '</td>' +
+        '<td><button class="btn btn-sm btn-success renew-sub-btn" data-id="' + u.id + '" data-name="' + (u.name + ' ' + u.surname) + '">Renew<\/button></td>' +
+        '<\/tr>';
+    }).join('');
+
+    wrapper.innerHTML = '<table class="table table-hover"><thead><tr><th>Name<\/th><th>Email<\/th><th>Status<\/th><th>Expires<\/th><th>Action<\/th><\/tr><\/thead><tbody>' + rows + '<\/tbody><\/table>';
   },
 
   prefillEditForm: function(user) {
@@ -128,9 +197,9 @@ var ProfileView = {
           '<td colspan="6" class="text-center">' +
             '<div class="alert alert-info">' +
               'No borrowing history found.' +
-            '</div>' +
-          '</td>' +
-        '</tr>';
+            '<\/div>' +
+          '<\/td>' +
+        '<\/tr>';
       return;
     }
 
@@ -182,17 +251,66 @@ var ProfileView = {
       }
 
       html += '' +
-        '<tr>' +
+        '</tr>' +
           '<td>' + bookTitle + '</td>' +
           '<td>' + authorName + '</td>' +
           '<td>' + borrowDate + '</td>' +
           '<td>' + returnDate + '</td>' +
           '<td>' + dueDate + '</td>' +
-          '<td><span class="badge bg-' + statusClass + '">' + statusText + '</span></td>' +
-        '</tr>';
+          '<td><span class="badge bg-' + statusClass + '">' + statusText + '<\/span></td>' +
+        '<\/tr>';
     });
 
     tableBody.innerHTML = html;
+  },
+
+  displayFavourites: function(favourites, userId) {
+    var container = document.getElementById('my-favourites-list');
+    if (!container) return;
+    if (!favourites || favourites.length === 0) {
+      container.innerHTML = '<p class="text-center text-muted">You have no favourite books yet.<\/p>';
+      return;
+    }
+    var html = '<div class="table-responsive"><table class="table table-hover"><thead><tr><th>Title<\/th><th>Author<\/th><th>Genre<\/th><th>Actions<\/th><\/tr><\/thead><tbody>';
+    favourites.forEach(function(f) {
+      html += '<tr>' +
+        '<td><a href="#book-details" class="book-details-link text-decoration-none" data-book-id="' + f.book_id + '" onclick="localStorage.setItem(\'currentBookId\',\'' + f.book_id + '\')">' + (f.title || 'N/A') + '<\/a></td>' +
+        '<td>' + (f.author_name || 'N/A') + '</td>' +
+        '<td>' + (f.genre || 'N/A') + '</td>' +
+        '<td><button class="btn btn-sm btn-outline-danger remove-fav-btn" data-book-id="' + f.book_id + '" data-user-id="' + userId + '">Remove<\/button></td>' +
+        '<\/tr>';
+    });
+    html += '<\/tbody><\/table><\/div>';
+    container.innerHTML = html;
+  },
+
+  displayReservations: function(reservations) {
+    var container = document.getElementById('my-reservations-list');
+    if (!container) return;
+    if (!reservations || reservations.length === 0) {
+      container.innerHTML = '<p class="text-center text-muted">You have no active reservations.<\/p>';
+      return;
+    }
+    var fmt = function(d) {
+      try {
+        return new Date(d).toLocaleDateString();
+      } catch(e) {
+        return d || 'N/A';
+      }
+    };
+    var html = '<table class="table table-hover"><thead><tr><th>Book<\/th><th>Author<\/th><th>Reserved<\/th><th>Status<\/th><th>Action<\/th><\/tr><\/thead><tbody>';
+    reservations.forEach(function(r) {
+      var isAvail = r.status === 'Available for Pickup';
+      html += '<tr' + (isAvail ? ' class="table-success"' : '') + '>' +
+        '<td>' + (r.title || 'N/A') + '</td>' +
+        '<td>' + (r.author_name || 'N/A') + '</td>' +
+        '<td>' + fmt(r.created_at) + '</td>' +
+        '<td><span class="badge bg-' + (isAvail ? 'success' : 'warning') + '">' + r.status + '<\/span></td>' +
+        '<td><button class="btn btn-sm btn-danger cancel-user-reservation-btn" data-id="' + r.id + '">Cancel<\/button></td>' +
+        '<\/tr>';
+    });
+    html += '<\/tbody><\/table>';
+    container.innerHTML = html;
   },
 
   updateDisplayedProfile: function(formData) {

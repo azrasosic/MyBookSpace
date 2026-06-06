@@ -8,6 +8,9 @@
         </table>
       </div>
     </div>
+
+    <div id="subscription-banner" style="display:none;"></div>
+
     <div class="text-center">
       <button type="button" class="btn float-center me-3" data-bs-toggle="modal" data-bs-target="#editProfileModal" style="background-color: #e96b56; color: white;">Edit Profile</button>
       <button type="button" class="btn float-center" data-bs-toggle="modal" data-bs-target="#changePasswordModal" style="background-color: #5a67d8; color: white;">Change Password</button>
@@ -105,18 +108,52 @@
   </div>
 </section>
 
+<section id="my-favourites-section" class="profile-section" style="display:none;">
+  <div class="container">
+    <h3 class="text-center mb-4">My Favourites</h3>
+    <div id="my-favourites-list">
+      <div class="text-center py-3"><div class="spinner-border" role="status"></div></div>
+    </div>
+  </div>
+</section>
+
+<section id="my-reservations-section" class="profile-section" style="display:none;">
+  <div class="container">
+    <h3 class="text-center mb-4">My Reservations</h3>
+    <div id="my-reservations-list">
+      <div class="text-center py-3"><div class="spinner-border" role="status"></div></div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="cancelReservationModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Cancel Reservation</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">Are you sure you want to cancel this reservation?</div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+          <button type="button" class="btn btn-danger" id="confirmCancelUserReservationBtn">Yes, Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <script type="text/javascript">
-  $(document).ready(() => {
+  $(document).ready(function() {
     if (window.location.hash.includes('#profile')) {
       if (typeof ProfileController !== 'undefined') {
         ProfileController.init();
       }
     }
 
-    $(window).on('hashchange', () => {
+    $(window).on('hashchange', function() {
       if (window.location.hash.includes('#profile')) {
         if (typeof ProfileController !== 'undefined') {
-          setTimeout(() => {
+          setTimeout(function() {
             ProfileController.init();
           }, 100);
         }

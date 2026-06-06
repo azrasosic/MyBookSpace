@@ -3,7 +3,7 @@ var BookModel = {
   currentBook: null,
 
   loadBooks: function(genre, successCallback, errorCallback) {
-    const token = localStorage.getItem('user_token');
+    var token = localStorage.getItem('user_token');
 
     if (!token) {
       toastr.error('Please log in to view books');
@@ -13,8 +13,8 @@ var BookModel = {
     }
 
     try {
-      const decoded = Utils.parseJwt(token);
-      const currentTime = Math.floor(Date.now() / 1000);
+      var decoded = Utils.parseJwt(token);
+      var currentTime = Math.floor(Date.now() / 1000);
 
       if (decoded.exp && decoded.exp < currentTime) {
         localStorage.removeItem('user_token');
@@ -31,7 +31,7 @@ var BookModel = {
       return;
     }
 
-    let url = 'books';
+    var url = 'books';
     if (genre && genre !== '') {
       url = 'books/genre/' + encodeURIComponent(genre);
     }
@@ -40,7 +40,7 @@ var BookModel = {
   },
 
   loadBookDetails: function(bookId, successCallback, errorCallback) {
-    const token = localStorage.getItem('user_token');
+    var token = localStorage.getItem('user_token');
     if (!token) {
       toastr.error('Please log in to view book details');
       window.location.href = '#login';

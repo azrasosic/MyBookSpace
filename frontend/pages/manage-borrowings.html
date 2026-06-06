@@ -102,17 +102,17 @@
 </div>
 
 <script type="text/javascript">
-  $(document).ready(() => {
+  $(document).ready(function() {
     if (window.location.hash.includes('#manage-borrowings')) {
       if (typeof ManageBorrowingsController !== 'undefined') {
         ManageBorrowingsController.init();
       }
     }
 
-    $(window).on('hashchange', () => {
+    $(window).on('hashchange', function() {
       if (window.location.hash.includes('#manage-borrowings')) {
         if (typeof ManageBorrowingsController !== 'undefined') {
-          setTimeout(() => {
+          setTimeout(function() {
             ManageBorrowingsController.init();
           }, 100);
         }

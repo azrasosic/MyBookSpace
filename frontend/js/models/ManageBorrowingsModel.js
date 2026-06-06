@@ -8,7 +8,7 @@ var ManageBorrowingsModel = {
 
   checkAuth: function() {
     try {
-      const token = localStorage.getItem('user_token');
+      var token = localStorage.getItem('user_token');
 
       if (!token) {
         toastr.error('Please log in to access admin dashboard');
@@ -16,7 +16,7 @@ var ManageBorrowingsModel = {
         return false;
       }
 
-      const decoded = Utils.parseJwt(token);
+      var decoded = Utils.parseJwt(token);
 
       if (!decoded || !decoded.user) {
         toastr.error('Invalid user data in token');
@@ -34,7 +34,6 @@ var ManageBorrowingsModel = {
       }
 
       return true;
-
     } catch (e) {
       toastr.error('Invalid session');
       window.location.href = '#login';
@@ -94,15 +93,21 @@ var ManageBorrowingsModel = {
   },
 
   findBookById: function(bookId) {
-    return this.books.find(function(b) { return b.id === bookId; });
+    return this.books.find(function(b) {
+      return b.id === bookId;
+    });
   },
 
   findUserById: function(userId) {
-    return this.users.find(function(u) { return u.id === userId; });
+    return this.users.find(function(u) {
+      return u.id === userId;
+    });
   },
 
   findLibrarianById: function(librarianId) {
-    return this.librarians.find(function(l) { return l.id === librarianId; });
+    return this.librarians.find(function(l) {
+      return l.id === librarianId;
+    });
   }
 };
 

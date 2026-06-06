@@ -74,7 +74,7 @@ var ManageAuthorsController = {
           message: '<h4><i class="bi bi-hourglass-split me-2"></i>Adding author...</h4>'
         });
 
-        const formData = ManageAuthorsView.getFormData(form);
+        var formData = ManageAuthorsView.getFormData(form);
         ManageAuthorsModel.addAuthor(
           formData,
           function(response) {
@@ -93,7 +93,7 @@ var ManageAuthorsController = {
                 window.location.reload();
               }, 1500);
             } else {
-              const errorMsg = response && response.error ? response.error : 'Failed to add author';
+              var errorMsg = response && response.error ? response.error : 'Failed to add author';
               toastr.error(errorMsg);
             }
           },
@@ -101,13 +101,13 @@ var ManageAuthorsController = {
             $.unblockUI();
 
             console.error('Add author error:', error);
-            let errorMsg = 'Failed to add author';
+            var errorMsg = 'Failed to add author';
 
             if (error.responseJSON) {
               errorMsg = error.responseJSON.error || error.responseJSON.message || errorMsg;
             } else if (error.responseText) {
               try {
-                const errorData = JSON.parse(error.responseText);
+                var errorData = JSON.parse(error.responseText);
                 errorMsg = errorData.error || errorData.message || errorMsg;
               } catch (e) {
                 if (error.responseText.trim()) {
@@ -165,14 +165,14 @@ var ManageAuthorsController = {
           message: '<h4><i class="bi bi-hourglass-split me-2"></i>Updating author...</h4>'
         });
 
-        const authorId = document.getElementById('editAuthorId')?.value;
+        var authorId = document.getElementById('editAuthorId')?.value;
         if (!authorId) {
           $.unblockUI();
           toastr.error('No author ID found for update!');
           return false;
         }
 
-        const formData = ManageAuthorsView.getFormData(form);
+        var formData = ManageAuthorsView.getFormData(form);
 
         ManageAuthorsModel.updateAuthor(
           authorId,
@@ -192,7 +192,7 @@ var ManageAuthorsController = {
                 ManageAuthorsController.loadAuthors();
               }, 1500);
             } else {
-              const errorMsg = response && response.error ? response.error : 'Failed to update author';
+              var errorMsg = response && response.error ? response.error : 'Failed to update author';
               toastr.error(errorMsg);
             }
           },
@@ -200,13 +200,13 @@ var ManageAuthorsController = {
             $.unblockUI();
 
             console.error('Update author error:', error);
-            let errorMsg = 'Failed to update author';
+            var errorMsg = 'Failed to update author';
 
             if (error.responseJSON) {
               errorMsg = error.responseJSON.error || error.responseJSON.message || errorMsg;
             } else if (error.responseText) {
               try {
-                const errorData = JSON.parse(error.responseText);
+                var errorData = JSON.parse(error.responseText);
                 errorMsg = errorData.error || errorData.message || errorMsg;
               } catch (e) {
                 if (error.responseText.trim()) {
@@ -249,7 +249,7 @@ var ManageAuthorsController = {
         ManageAuthorsView.displayAuthors(this.authors);
       }.bind(this),
       function(error) {
-        let errorMessage = 'Failed to load authors';
+        var errorMessage = 'Failed to load authors';
         if (error && error.status) {
           errorMessage += ' (Status: ' + error.status + ')';
         }
@@ -308,7 +308,7 @@ var ManageAuthorsController = {
           toastr.success(error.message || 'Author deleted successfully');
           this.loadAuthors();
         } else {
-          let errorMsg = error.responseJSON?.error || error.message || 'Failed to delete author';
+          var errorMsg = error.responseJSON?.error || error.message || 'Failed to delete author';
 
           if (error.status === 404) {
             errorMsg = 'Author not found';

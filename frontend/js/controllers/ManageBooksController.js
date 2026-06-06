@@ -34,7 +34,7 @@ var ManageBooksController = {
       return;
     }
 
-    const currentYear = new Date().getFullYear();
+    var currentYear = new Date().getFullYear();
 
     $('#addBookForm').validate({
       rules: {
@@ -123,9 +123,9 @@ var ManageBooksController = {
           message: '<h4><i class="bi bi-hourglass-split me-2"></i>Adding book...</h4>'
         });
 
-        const formData = ManageBooksView.getFormData(form);
+        var formData = ManageBooksView.getFormData(form);
 
-        const pubYear = parseInt(formData.publication_year);
+        var pubYear = parseInt(formData.publication_year);
         if (pubYear > currentYear) {
           $.unblockUI();
           toastr.error('Publication year cannot be in the future');
@@ -157,13 +157,13 @@ var ManageBooksController = {
             $.unblockUI();
 
             console.error('Add book error:', error);
-            let errorMsg = 'Failed to add book';
+            var errorMsg = 'Failed to add book';
 
             if (error.responseJSON) {
               errorMsg = error.responseJSON.error || error.responseJSON.message || errorMsg;
             } else if (error.responseText) {
               try {
-                const errorData = JSON.parse(error.responseText);
+                var errorData = JSON.parse(error.responseText);
                 errorMsg = errorData.error || errorData.message || errorMsg;
               } catch (e) {
                 if (error.responseText.trim()) {
@@ -267,16 +267,16 @@ var ManageBooksController = {
           message: '<h4><i class="bi bi-hourglass-split me-2"></i>Updating book...</h4>'
         });
 
-        const bookId = document.getElementById('editBookId')?.value;
+        var bookId = document.getElementById('editBookId')?.value;
         if (!bookId) {
           $.unblockUI();
           toastr.error('No book ID found for update!');
           return false;
         }
 
-        const formData = ManageBooksView.getFormData(form);
+        var formData = ManageBooksView.getFormData(form);
 
-        const pubYear = parseInt(formData.publication_year);
+        var pubYear = parseInt(formData.publication_year);
         if (pubYear > currentYear) {
           $.unblockUI();
           toastr.error('Publication year cannot be in the future');
@@ -306,13 +306,13 @@ var ManageBooksController = {
             $.unblockUI();
 
             console.error('Update book error:', error);
-            let errorMsg = 'Failed to update book';
+            var errorMsg = 'Failed to update book';
 
             if (error.responseJSON) {
               errorMsg = error.responseJSON.error || error.responseJSON.message || errorMsg;
             } else if (error.responseText) {
               try {
-                const errorData = JSON.parse(error.responseText);
+                var errorData = JSON.parse(error.responseText);
                 errorMsg = errorData.error || errorData.message || errorMsg;
               } catch (e) {
                 if (error.responseText.trim()) {
@@ -411,7 +411,7 @@ var ManageBooksController = {
   },
 
   deleteBook: function(bookId) {
-    const bookToDelete = this.books.find(function(book) { return book.id == bookId; });
+    var bookToDelete = this.books.find(function(book) { return book.id == bookId; });
 
     if (bookToDelete) {
       if (bookToDelete.status && bookToDelete.status.toLowerCase() === 'borrowed') {
@@ -442,7 +442,7 @@ var ManageBooksController = {
         $.unblockUI();
         console.error('Delete error:', error);
 
-        let errorMsg = 'Failed to delete book';
+        var errorMsg = 'Failed to delete book';
 
         if (error && error.message === 'Book deleted successfully') {
           toastr.success('Book deleted successfully');
@@ -455,7 +455,7 @@ var ManageBooksController = {
             errorMsg = error.responseJSON.error || error.responseJSON.message || errorMsg;
           } else if (error.responseText) {
             try {
-              const errorData = JSON.parse(error.responseText);
+              var errorData = JSON.parse(error.responseText);
               errorMsg = errorData.error || errorData.message || errorMsg;
             } catch (e) {
               if (error.responseText.trim()) {

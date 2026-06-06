@@ -17,11 +17,11 @@ class AuthorDao extends BaseDao
      */
     public function getBooksByAuthor($authorId)
     {
-        $query = "SELECT b.*, a.name as author_name 
+        $query = 'SELECT b.*, a.name as author_name 
                   FROM book b 
                   JOIN author a ON b.author_id = a.id 
                   WHERE b.author_id = :author_id 
-                  ORDER BY b.publication_year DESC, b.title";
+                  ORDER BY b.publication_year DESC, b.title';
         $stmt = $this->connection->prepare($query);
         $stmt->execute(['author_id' => $authorId]);
         return $stmt->fetchAll();
@@ -30,10 +30,10 @@ class AuthorDao extends BaseDao
     public function getAll()
     {
         $stmt = $this->connection->prepare(
-            "SELECT a.*, COUNT(b.id) as book_count 
+            'SELECT a.*, COUNT(b.id) as book_count 
             FROM author a 
             LEFT JOIN book b ON b.author_id = a.id 
-            GROUP BY a.id"
+            GROUP BY a.id'
         );
         $stmt->execute();
         return $stmt->fetchAll();
@@ -42,9 +42,22 @@ class AuthorDao extends BaseDao
     public function hasBooks($authorId)
     {
         $stmt = $this->connection->prepare(
-            "SELECT COUNT(*) FROM book WHERE author_id = :author_id"
+            'SELECT COUNT(*) FROM book WHERE author_id = :author_id'
         );
         $stmt->execute(['author_id' => $authorId]);
         return $stmt->fetchColumn() > 0;
+    }
+
+    public function getById($id)
+    {
+        $stmt = $this->connection->prepare(
+            'SELECT a.*, COUNT(b.id) as book_count 
+            FROM author a 
+            LEFT JOIN book b ON b.author_id = a.id 
+            WHERE a.id = :id
+            GROUP BY a.id'
+        );
+        $stmt->execute(['id' => $id]);
+        return $stmt->fetch();
     }
 }

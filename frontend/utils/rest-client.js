@@ -4,36 +4,36 @@
  * Provides HTTP request methods (GET, POST, PUT, PATCH, DELETE) with automatic
  * authentication token injection and unified error handling for API calls.
  */
-const RestClient = {
-  get(url, callback, errorCallback) {
+var RestClient = {
+  get: function(url, callback, errorCallback) {
     $.ajax({
-      url: `${Constants.PROJECT_BASE_URL}${url}`,
+      url: Constants.PROJECT_BASE_URL + url,
       type: 'GET',
-      beforeSend(xhr) {
+      beforeSend: function(xhr) {
         xhr.setRequestHeader('Authentication', localStorage.getItem('user_token'));
       },
-      success(response) {
+      success: function(response) {
         if (callback) callback(response);
       },
-      error(jqXHR, textStatus, errorThrown) {
+      error: function(jqXHR, textStatus, errorThrown) {
         if (errorCallback) errorCallback(jqXHR);
       },
     });
   },
 
-  request(url, method, data, callback, errorCallback) {
+  request: function(url, method, data, callback, errorCallback) {
     $.ajax({
-      url: `${Constants.PROJECT_BASE_URL}${url}`,
+      url: Constants.PROJECT_BASE_URL + url,
       type: method,
-      beforeSend(xhr) {
+      beforeSend: function(xhr) {
         xhr.setRequestHeader('Authentication', localStorage.getItem('user_token'));
       },
-      data,
+      data: data,
     })
-      .done((response, status, jqXHR) => {
+      .done(function(response, status, jqXHR) {
         if (callback) callback(response);
       })
-      .fail((jqXHR, textStatus, errorThrown) => {
+      .fail(function(jqXHR, textStatus, errorThrown) {
         if (errorCallback) {
           errorCallback(jqXHR);
         } else {
@@ -42,19 +42,19 @@ const RestClient = {
       });
   },
 
-  post(url, data, callback, errorCallback) {
+  post: function(url, data, callback, errorCallback) {
     RestClient.request(url, 'POST', data, callback, errorCallback);
   },
 
-  delete(url, data, callback, errorCallback) {
+  delete: function(url, data, callback, errorCallback) {
     RestClient.request(url, 'DELETE', data, callback, errorCallback);
   },
 
-  patch(url, data, callback, errorCallback) {
+  patch: function(url, data, callback, errorCallback) {
     RestClient.request(url, 'PATCH', data, callback, errorCallback);
   },
 
-  put(url, data, callback, errorCallback) {
+  put: function(url, data, callback, errorCallback) {
     RestClient.request(url, 'PUT', data, callback, errorCallback);
   },
 };

@@ -10,7 +10,7 @@ class AuthDao extends BaseDao
 
     public function __construct()
     {
-        $this->tableName = "user";
+        $this->tableName = 'user';
         parent::__construct($this->tableName);
     }
 
@@ -22,7 +22,7 @@ class AuthDao extends BaseDao
      */
     public function getUserByEmail($email)
     {
-        $query = "SELECT * FROM " . $this->tableName . " WHERE email = :email";
+        $query = 'SELECT * FROM ' . $this->tableName . ' WHERE email = :email';
         $stmt = $this->connection->prepare($query);
         $stmt->execute(['email' => $email]);
         return $stmt->fetch();
