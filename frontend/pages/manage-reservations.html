@@ -1,0 +1,35 @@
+<section id="manage-reservations" class="manage-reservations section">
+  <div class="container" data-aos="fade-up" data-aos-delay="100">
+    <h3 class="text-center mb-5">Manage Reservations</h3>
+
+    <div id="reservations-table-wrapper">
+      <div class="text-center py-5">
+        <div class="spinner-border" role="status"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="confirmCancelReservationModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Cancel Reservation</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">Are you sure you want to cancel this reservation?</div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+          <button type="button" class="btn btn-danger" id="confirmCancelReservationBtn">Yes, Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script type="text/javascript">
+  setTimeout(function() {
+    if (typeof ManageReservationsController !== 'undefined') {
+      ManageReservationsController.init();
+    }
+  }, 100);
+</script>

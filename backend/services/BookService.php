@@ -26,21 +26,21 @@ class BookService extends BaseService
     public function createBook($bookData)
     {
         if (empty($bookData['title'])) {
-            throw new InvalidArgumentException("Book title is required");
+            throw new InvalidArgumentException('Book title is required');
         }
 
         if (empty($bookData['author_id'])) {
-            throw new InvalidArgumentException("Author ID is required");
+            throw new InvalidArgumentException('Author ID is required');
         }
 
         if (empty($bookData['genre'])) {
-            throw new InvalidArgumentException("Genre is required");
+            throw new InvalidArgumentException('Genre is required');
         }
 
         if (isset($bookData['publication_year'])) {
             $currentYear = date('Y');
             if ($bookData['publication_year'] > $currentYear) {
-                throw new InvalidArgumentException("Publication year cannot be in the future");
+                throw new InvalidArgumentException('Publication year cannot be in the future');
             }
         }
 
@@ -53,13 +53,13 @@ class BookService extends BaseService
     {
         $book = $this->getById($bookId);
         if (!$book) {
-            throw new Exception("Book not found");
+            throw new Exception('Book not found');
         }
 
         if (isset($bookData['publication_year'])) {
             $currentYear = date('Y');
             if ($bookData['publication_year'] > $currentYear) {
-                throw new InvalidArgumentException("Publication year cannot be in the future");
+                throw new InvalidArgumentException('Publication year cannot be in the future');
             }
         }
 
@@ -70,11 +70,11 @@ class BookService extends BaseService
     {
         $book = $this->getById($bookId);
         if (!$book) {
-            throw new Exception("Book not found");
+            throw new Exception('Book not found');
         }
 
         if ($book['status'] === 'Borrowed') {
-            throw new Exception("Cannot delete a book that is currently borrowed");
+            throw new Exception('Cannot delete a book that is currently borrowed');
         }
 
         return $this->delete($bookId);
@@ -89,12 +89,12 @@ class BookService extends BaseService
         }
 
         return [
-            'id' => (int)$book['id'],
+            'id' => (int) $book['id'],
             'title' => $book['title'],
             'author_name' => $book['author_name'],
             'biography' => $book['author_biography'],
             'ISBN' => $book['ISBN'],
-            'publication_year' => $book['publication_year'] ? (int)$book['publication_year'] : null,
+            'publication_year' => $book['publication_year'] ? (int) $book['publication_year'] : null,
             'genre' => $book['genre'],
             'summary' => $book['summary'],
             'status' => $book['status'],

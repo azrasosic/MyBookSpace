@@ -23,7 +23,6 @@ Flight::route('GET /librarians', function () {
     Flight::auth_middleware()->authorizeRole(Roles::LIBRARIAN);
     try {
         $librarians = Flight::librarianService()->getAll();
-        // Remove passwords from response
         $librarians = array_map(function ($librarian) {
             unset($librarian['password']);
             return $librarian;
@@ -67,7 +66,7 @@ Flight::route('GET /librarians/@id', function ($id) {
     try {
         $librarian = Flight::librarianService()->getById($id);
         if ($librarian) {
-            unset($librarian['password']); // Remove password from response
+            unset($librarian['password']);
             Flight::json($librarian);
         } else {
             Flight::json(['error' => 'Librarian not found'], 404);

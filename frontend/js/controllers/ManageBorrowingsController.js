@@ -69,10 +69,10 @@ var ManageBorrowingsController = {
           message: '<h4><i class="bi bi-hourglass-split me-2"></i>Creating borrowing...</h4>'
         });
 
-        const formData = ManageBorrowingsView.getFormData(form);
+        var formData = ManageBorrowingsView.getFormData(form);
         formData.librarian_id = ManageBorrowingsModel.currentUserId;
 
-        const selectedBook = ManageBorrowingsController.books.find(function(b) { return b.id == formData.book_id; });
+        var selectedBook = ManageBorrowingsController.books.find(function(b) { return b.id == formData.book_id; });
         if (selectedBook && selectedBook.status !== 'Available') {
           $.unblockUI();
           toastr.error('Selected book is not available for borrowing');
@@ -97,7 +97,7 @@ var ManageBorrowingsController = {
                 window.location.reload();
               }, 1500);
             } else {
-              const errorMsg = response && response.error ? response.error : 'Failed to create borrowing';
+              var errorMsg = response && response.error ? response.error : 'Failed to create borrowing';
               toastr.error(errorMsg);
             }
           },
@@ -105,13 +105,13 @@ var ManageBorrowingsController = {
             $.unblockUI();
 
             console.error('Add borrowing error:', error);
-            let errorMsg = 'Failed to create borrowing';
+            var errorMsg = 'Failed to create borrowing';
 
             if (error.responseJSON) {
               errorMsg = error.responseJSON.error || error.responseJSON.message || errorMsg;
             } else if (error.responseText) {
               try {
-                const errorData = JSON.parse(error.responseText);
+                var errorData = JSON.parse(error.responseText);
                 errorMsg = errorData.error || errorData.message || errorMsg;
               } catch (e) {
                 if (error.responseText.trim()) {
@@ -161,16 +161,16 @@ var ManageBorrowingsController = {
           message: '<h4><i class="bi bi-hourglass-split me-2"></i>Updating borrowing...</h4>'
         });
 
-        const borrowingId = document.getElementById('editBorrowingId')?.value;
+        var borrowingId = document.getElementById('editBorrowingId')?.value;
         if (!borrowingId) {
           $.unblockUI();
           toastr.error('No borrowing ID found for update!');
           return false;
         }
 
-        const status = document.getElementById('editBorrowingStatus').value;
-        const returnDate = document.getElementById('editBorrowingReturnDate').value;
-        const borrowDateDisplay = document.getElementById('editBorrowingBorrowDateDisplay').value;
+        var status = document.getElementById('editBorrowingStatus').value;
+        var returnDate = document.getElementById('editBorrowingReturnDate').value;
+        var borrowDateDisplay = document.getElementById('editBorrowingBorrowDateDisplay').value;
 
         if (status === 'Returned') {
           if (!returnDate) {
@@ -180,8 +180,8 @@ var ManageBorrowingsController = {
           }
 
           if (borrowDateDisplay) {
-            const borrowDate = new Date(borrowDateDisplay);
-            const returnDateObj = new Date(returnDate);
+            var borrowDate = new Date(borrowDateDisplay);
+            var returnDateObj = new Date(returnDate);
 
             if (returnDateObj < borrowDate) {
               $.unblockUI();
@@ -208,7 +208,7 @@ var ManageBorrowingsController = {
 
                 ManageBorrowingsController.loadBorrowings();
               } else {
-                const errorMsg = response && response.error ? response.error : 'Failed to return book';
+                var errorMsg = response && response.error ? response.error : 'Failed to return book';
                 toastr.error(errorMsg);
               }
             },
@@ -216,13 +216,13 @@ var ManageBorrowingsController = {
               $.unblockUI();
 
               console.error('Return book error:', error);
-              let errorMsg = 'Failed to return book';
+              var errorMsg = 'Failed to return book';
 
               if (error.responseJSON) {
                 errorMsg = error.responseJSON.error || error.responseJSON.message || errorMsg;
               } else if (error.responseText) {
                 try {
-                  const errorData = JSON.parse(error.responseText);
+                  var errorData = JSON.parse(error.responseText);
                   errorMsg = errorData.error || errorData.message || errorMsg;
                 } catch (e) {
                   if (error.responseText.trim()) {
@@ -235,7 +235,7 @@ var ManageBorrowingsController = {
             }
           );
         } else {
-          const updateData = {
+          var updateData = {
             return_date: returnDate || null,
             status: status
           };
@@ -256,7 +256,7 @@ var ManageBorrowingsController = {
 
                 ManageBorrowingsController.loadBorrowings();
               } else {
-                const errorMsg = response && response.error ? response.error : 'Failed to update borrowing';
+                var errorMsg = response && response.error ? response.error : 'Failed to update borrowing';
                 toastr.error(errorMsg);
               }
             },
@@ -264,13 +264,13 @@ var ManageBorrowingsController = {
               $.unblockUI();
 
               console.error('Update borrowing error:', error);
-              let errorMsg = 'Failed to update borrowing';
+              var errorMsg = 'Failed to update borrowing';
 
               if (error.responseJSON) {
                 errorMsg = error.responseJSON.error || error.responseJSON.message || errorMsg;
               } else if (error.responseText) {
                 try {
-                  const errorData = JSON.parse(error.responseText);
+                  var errorData = JSON.parse(error.responseText);
                   errorMsg = errorData.error || errorData.message || errorMsg;
                 } catch (e) {
                   if (error.responseText.trim()) {
@@ -289,7 +289,7 @@ var ManageBorrowingsController = {
     });
 
     $.validator.addMethod('requiredWhenReturned', function(value, element) {
-      const status = $('#editBorrowingStatus').val();
+      var status = $('#editBorrowingStatus').val();
       if (status === 'Returned') {
         return value.trim() !== '';
       }
@@ -297,8 +297,8 @@ var ManageBorrowingsController = {
     }, 'Return date is required when marking as Returned');
 
     $('#editBorrowingStatus').on('change', function() {
-      const status = $(this).val();
-      const returnDateField = $('#editBorrowingReturnDate');
+      var status = $(this).val();
+      var returnDateField = $('#editBorrowingReturnDate');
 
       if (status === 'Returned') {
         returnDateField.prop('required', true);
@@ -443,13 +443,13 @@ var ManageBorrowingsController = {
   },
 
   deleteBorrowing: function(borrowingId) {
-    const borrowingToDelete = this.borrowings.find(function(borrowing) { return borrowing.id == borrowingId; });
+    var borrowingToDelete = this.borrowings.find(function(borrowing) { return borrowing.id == borrowingId; });
 
     if (borrowingToDelete) {
-      const displayStatus = ManageBorrowingsView.getDisplayStatus(borrowingToDelete).toLowerCase();
-      const status = borrowingToDelete.status ? borrowingToDelete.status.toLowerCase() : '';
+      var displayStatus = ManageBorrowingsView.getDisplayStatus(borrowingToDelete).toLowerCase();
+      var status = borrowingToDelete.status ? borrowingToDelete.status.toLowerCase() : '';
 
-      const isActive = status === 'active' ||
+      var isActive = status === 'active' ||
         status === 'borrowed' ||
         displayStatus === 'overdue' ||
         (!borrowingToDelete.return_date && borrowingToDelete.status &&
@@ -488,7 +488,7 @@ var ManageBorrowingsController = {
           toastr.success(error.message || 'Borrowing record deleted successfully');
           this.loadBorrowings();
         } else {
-          let errorMsg = error.responseJSON?.error || error.message || 'Failed to delete borrowing';
+          var errorMsg = error.responseJSON?.error || error.message || 'Failed to delete borrowing';
 
           if (error.status === 404) {
             errorMsg = 'Borrowing not found';

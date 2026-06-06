@@ -72,7 +72,7 @@ class AuthService extends BaseService
 
         unset($user['password']);
         if (!isset($user['role'])) {
-            error_log("WARNING: Role not found in user data!");
+            error_log('WARNING: Role not found in user data!');
             $user['role'] = Roles::USER;
         }
         $jwtPayload = [

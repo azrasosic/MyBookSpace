@@ -57,15 +57,15 @@ class LibrarianService extends BaseService
     {
         $librarian = $this->dao->getLibrarianByIdWithPassword($librarianId);
         if (!$librarian) {
-            throw new Exception("Librarian not found");
+            throw new Exception('Librarian not found');
         }
 
         if (!password_verify($currentPassword, $librarian['password'])) {
-            throw new Exception("Current password is incorrect");
+            throw new Exception('Current password is incorrect');
         }
 
         if (strlen($newPassword) < 8) {
-            throw new InvalidArgumentException("New password must be at least 8 characters");
+            throw new InvalidArgumentException('New password must be at least 8 characters');
         }
 
         $hashedNewPassword = password_hash($newPassword, PASSWORD_DEFAULT);
@@ -79,7 +79,7 @@ class LibrarianService extends BaseService
     {
         $librarian = $this->getById($librarianId);
         if (!$librarian) {
-            throw new Exception("Librarian not found");
+            throw new Exception('Librarian not found');
         }
 
         $allowed = ['name', 'surname', 'email', 'phone', 'date_of_birth'];
@@ -95,47 +95,47 @@ class LibrarianService extends BaseService
     public function createLibrarian($librarianData)
     {
         if (empty($librarianData['name'])) {
-            throw new InvalidArgumentException("Name is required");
+            throw new InvalidArgumentException('Name is required');
         }
 
         if (empty($librarianData['surname'])) {
-            throw new InvalidArgumentException("Surname is required");
+            throw new InvalidArgumentException('Surname is required');
         }
 
         if (empty($librarianData['email'])) {
-            throw new InvalidArgumentException("Email is required");
+            throw new InvalidArgumentException('Email is required');
         }
 
         if (empty($librarianData['password'])) {
-            throw new InvalidArgumentException("Password is required");
+            throw new InvalidArgumentException('Password is required');
         }
 
         if (empty($librarianData['employment_date'])) {
-            throw new InvalidArgumentException("Employment date is required");
+            throw new InvalidArgumentException('Employment date is required');
         }
 
         if (!filter_var($librarianData['email'], FILTER_VALIDATE_EMAIL)) {
-            throw new InvalidArgumentException("Invalid email format");
+            throw new InvalidArgumentException('Invalid email format');
         }
 
         if ($this->dao->getLibrarianByEmail($librarianData['email'])) {
-            throw new Exception("Email already registered");
+            throw new Exception('Email already registered');
         }
 
         if (strlen($librarianData['password']) < 8) {
-            throw new InvalidArgumentException("Password must be at least 8 characters");
+            throw new InvalidArgumentException('Password must be at least 8 characters');
         }
 
         if (isset($librarianData['date_of_birth'])) {
             $dateOfBirth = DateTime::createFromFormat('Y-m-d', $librarianData['date_of_birth']);
             if (!$dateOfBirth || $dateOfBirth->format('Y-m-d') !== $librarianData['date_of_birth']) {
-                throw new InvalidArgumentException("Invalid date of birth format. Use YYYY-MM-DD");
+                throw new InvalidArgumentException('Invalid date of birth format. Use YYYY-MM-DD');
             }
         }
 
         $employmentDate = DateTime::createFromFormat('Y-m-d', $librarianData['employment_date']);
         if (!$employmentDate || $employmentDate->format('Y-m-d') !== $librarianData['employment_date']) {
-            throw new InvalidArgumentException("Invalid employment date format. Use YYYY-MM-DD");
+            throw new InvalidArgumentException('Invalid employment date format. Use YYYY-MM-DD');
         }
 
         if (isset($librarianData['password'])) {

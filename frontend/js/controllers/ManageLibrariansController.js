@@ -28,11 +28,11 @@ var ManageLibrariansController = {
       return;
     }
 
-    const today = new Date();
-    const maxBirthDate = new Date(today.getFullYear() - 18, today.getMonth(), today.getDate());
-    const minBirthDate = new Date(today.getFullYear() - 100, today.getMonth(), today.getDate());
-    const maxBirthDateStr = maxBirthDate.toISOString().split('T')[0];
-    const minBirthDateStr = minBirthDate.toISOString().split('T')[0];
+    var today = new Date();
+    var maxBirthDate = new Date(today.getFullYear() - 18, today.getMonth(), today.getDate());
+    var minBirthDate = new Date(today.getFullYear() - 100, today.getMonth(), today.getDate());
+    var maxBirthDateStr = maxBirthDate.toISOString().split('T')[0];
+    var minBirthDateStr = minBirthDate.toISOString().split('T')[0];
 
     $('#addLibrarianForm').validate({
       rules: {
@@ -115,7 +115,7 @@ var ManageLibrariansController = {
           message: '<h4><i class="bi bi-hourglass-split me-2"></i>Adding librarian...</h4>'
         });
 
-        const formData = ManageLibrariansView.getFormData(form);
+        var formData = ManageLibrariansView.getFormData(form);
         if (formData.phone) {
           formData.phone = formData.phone.replace(/[^\d+]/g, '');
         }
@@ -140,7 +140,7 @@ var ManageLibrariansController = {
                 window.location.reload();
               }, 1500);
             } else {
-              const errorMsg = response && response.error ? response.error : 'Failed to add librarian';
+              var errorMsg = response && response.error ? response.error : 'Failed to add librarian';
               toastr.error(errorMsg);
             }
           },
@@ -148,13 +148,13 @@ var ManageLibrariansController = {
             $.unblockUI();
 
             console.error('Add librarian error:', error);
-            let errorMsg = 'Failed to add librarian';
+            var errorMsg = 'Failed to add librarian';
 
             if (error.responseJSON) {
               errorMsg = error.responseJSON.error || error.responseJSON.message || errorMsg;
             } else if (error.responseText) {
               try {
-                const errorData = JSON.parse(error.responseText);
+                var errorData = JSON.parse(error.responseText);
                 errorMsg = errorData.error || errorData.message || errorMsg;
               } catch (e) {
                 if (error.responseText.trim()) {
@@ -177,11 +177,11 @@ var ManageLibrariansController = {
     });
 
     $('#addLibrarianModal').on('show.bs.modal', function() {
-      const today = new Date();
-      const maxDate = new Date(today.getFullYear() - 18, today.getMonth(), today.getDate());
-      const minDate = new Date(today.getFullYear() - 100, today.getMonth(), today.getDate());
+      var today = new Date();
+      var maxDate = new Date(today.getFullYear() - 18, today.getMonth(), today.getDate());
+      var minDate = new Date(today.getFullYear() - 100, today.getMonth(), today.getDate());
 
-      const dateOfBirthInput = document.getElementById('librarianDateOfBirth');
+      var dateOfBirthInput = document.getElementById('librarianDateOfBirth');
       if (dateOfBirthInput) {
         dateOfBirthInput.max = maxDate.toISOString().split('T')[0];
         dateOfBirthInput.min = minDate.toISOString().split('T')[0];
@@ -236,13 +236,13 @@ var ManageLibrariansController = {
           toastr.success(error.message || 'Librarian deleted successfully');
           this.loadLibrarians();
         } else {
-          let errorMsg = 'Failed to delete librarian';
+          var errorMsg = 'Failed to delete librarian';
 
           if (error.responseJSON) {
             errorMsg = error.responseJSON.error || error.responseJSON.message || errorMsg;
           } else if (error.responseText) {
             try {
-              const errorData = JSON.parse(error.responseText);
+              var errorData = JSON.parse(error.responseText);
               errorMsg = errorData.error || errorData.message || errorMsg;
             } catch (e) {
               if (error.responseText.trim()) {

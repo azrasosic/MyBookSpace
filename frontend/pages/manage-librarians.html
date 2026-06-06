@@ -65,17 +65,17 @@
 </div>
 
 <script type="text/javascript">
-  $(document).ready(() => {
+  $(document).ready(function() {
     if (window.location.hash.includes('#manage-librarians')) {
       if (typeof ManageLibrariansController !== 'undefined') {
         ManageLibrariansController.init();
       }
     }
 
-    $(window).on('hashchange', () => {
+    $(window).on('hashchange', function() {
       if (window.location.hash.includes('#manage-librarians')) {
         if (typeof ManageLibrariansController !== 'undefined') {
-          setTimeout(() => {
+          setTimeout(function() {
             ManageLibrariansController.init();
           }, 100);
         }

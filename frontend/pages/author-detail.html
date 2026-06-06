@@ -1,0 +1,13 @@
+<div id="author-detail-container">
+  <div class="text-center py-5">
+    <div class="spinner-border" role="status"></div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  setTimeout(function() {
+    if (typeof AuthorsController !== 'undefined') {
+      AuthorsController.initDetail();
+    }
+  }, 100);
+</script>

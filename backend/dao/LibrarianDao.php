@@ -13,7 +13,7 @@ class LibrarianDao extends BaseDao
 
     public function getLibrarianByEmail($email)
     {
-        $query = "SELECT * FROM librarian WHERE email = :email";
+        $query = 'SELECT * FROM librarian WHERE email = :email';
         $stmt = $this->connection->prepare($query);
         $stmt->execute(['email' => $email]);
         return $stmt->fetch();
@@ -32,7 +32,9 @@ class LibrarianDao extends BaseDao
 
     public function getById($id)
     {
-        $query = "SELECT id, name, surname, email, phone, date_of_birth, employment_date, role FROM librarian WHERE id = :id";
+        $query = 'SELECT id, name, surname, email, phone, date_of_birth, employment_date, role 
+                  FROM librarian 
+                  WHERE id = :id';
         $stmt = $this->connection->prepare($query);
         $stmt->execute(['id' => $id]);
         return $stmt->fetch();
@@ -40,7 +42,7 @@ class LibrarianDao extends BaseDao
 
     public function getLibrarianByIdWithPassword($id)
     {
-        $query = "SELECT * FROM librarian WHERE id = :id";
+        $query = 'SELECT * FROM librarian WHERE id = :id';
         $stmt = $this->connection->prepare($query);
         $stmt->execute(['id' => $id]);
         return $stmt->fetch();

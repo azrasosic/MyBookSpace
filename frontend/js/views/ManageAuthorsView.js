@@ -11,7 +11,8 @@ var ManageAuthorsView = {
     }
 
     if (!authors || authors.length === 0) {
-      tableBody.innerHTML = '<tr><td colspan="3" class="text-center">No authors found</td></tr>';
+      tableBody.innerHTML = '<tr><td colspan="3" class="text-center">No authors found</td>' +
+        '</tr>';
       return;
     }
 

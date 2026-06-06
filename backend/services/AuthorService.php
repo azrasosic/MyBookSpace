@@ -43,7 +43,7 @@ class AuthorService extends BaseService
     public function deleteAuthor($id)
     {
         if ($this->dao->hasBooks($id)) {
-            throw new Exception("Cannot delete an author with existing books");
+            throw new Exception('Cannot delete an author with existing books');
         }
         return $this->delete($id);
     }

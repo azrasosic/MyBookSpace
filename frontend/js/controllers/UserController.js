@@ -51,8 +51,8 @@ var UserController = {
           message: '<h4 class="text-white"><i class="bi bi-hourglass-split me-2"></i>Logging in...</h4>'
         });
 
-        const formData = new FormData(form);
-        const entity = {
+        var formData = new FormData(form);
+        var entity = {
           email: formData.get('email'),
           password: formData.get('password')
         };
@@ -99,8 +99,8 @@ var UserController = {
           message: '<h4 class="text-white"><i class="bi bi-hourglass-split me-2"></i>Logging in...</h4>'
         });
 
-        const formData = new FormData(form);
-        const entity = {
+        var formData = new FormData(form);
+        var entity = {
           email: formData.get('librarian_email'),
           password: formData.get('librarian_password')
         };
@@ -207,11 +207,11 @@ var UserController = {
           message: '<h4 class="text-white"><i class="bi bi-hourglass-split me-2"></i>Registering...</h4>'
         });
 
-        const formData = new FormData(form);
-        const entity = Object.fromEntries(formData.entries());
+        var formData = new FormData(form);
+        var entity = Object.fromEntries(formData.entries());
 
         if (entity.date_of_birth) {
-          const dateObj = new Date(entity.date_of_birth);
+          var dateObj = new Date(entity.date_of_birth);
           entity.date_of_birth = dateObj.toISOString().split('T')[0];
         }
 
@@ -242,13 +242,13 @@ var UserController = {
       },
       function(xhr) {
         $.unblockUI();
-        let errorMessage = 'Member login failed';
+        var errorMessage = 'Member login failed';
 
         if (xhr.responseJSON && xhr.responseJSON.message) {
           errorMessage = xhr.responseJSON.message;
         } else if (xhr.responseText) {
           try {
-            const errorData = JSON.parse(xhr.responseText);
+            var errorData = JSON.parse(xhr.responseText);
             errorMessage = errorData.message || errorData.error || errorMessage;
           } catch (e) {
             errorMessage = xhr.responseText || errorMessage;
@@ -277,13 +277,13 @@ var UserController = {
       },
       function(xhr) {
         $.unblockUI();
-        let errorMessage = 'Librarian login failed';
+        var errorMessage = 'Librarian login failed';
 
         if (xhr.responseJSON && xhr.responseJSON.message) {
           errorMessage = xhr.responseJSON.message;
         } else if (xhr.responseText) {
           try {
-            const errorData = JSON.parse(xhr.responseText);
+            var errorData = JSON.parse(xhr.responseText);
             errorMessage = errorData.message || errorData.error || errorMessage;
           } catch (e) {
             errorMessage = xhr.responseText || errorMessage;
@@ -308,7 +308,7 @@ var UserController = {
         $('#registerForm').validate().resetForm();
 
         if (window.history.replaceState) {
-          const cleanUrl = window.location.pathname + window.location.search;
+          var cleanUrl = window.location.pathname + window.location.search;
           window.history.replaceState(null, null, cleanUrl);
         }
 
@@ -318,7 +318,7 @@ var UserController = {
       },
       function(xhr) {
         $.unblockUI();
-        let errorMessage = 'Registration failed. Please try again.';
+        var errorMessage = 'Registration failed. Please try again.';
 
         if (xhr.responseJSON && xhr.responseJSON.message) {
           errorMessage = xhr.responseJSON.message;
@@ -326,7 +326,7 @@ var UserController = {
           errorMessage = xhr.responseJSON.error;
         } else if (xhr.responseText) {
           try {
-            const errorData = JSON.parse(xhr.responseText);
+            var errorData = JSON.parse(xhr.responseText);
             errorMessage = errorData.message || errorData.error || errorMessage;
           } catch (e) {
             if (xhr.responseText.includes('email') && xhr.responseText.includes('exists')) {

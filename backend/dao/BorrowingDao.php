@@ -38,12 +38,12 @@ class BorrowingDao extends BaseDao
 
     public function getUserActiveBorrowings($userId)
     {
-        $query = "SELECT br.*, b.title as book_title, a.name as author_name
+        $query = 'SELECT br.*, b.title as book_title, a.name as author_name
                   FROM borrowing br
                   JOIN book b ON br.book_id = b.id
                   JOIN author a ON b.author_id = a.id
-                  WHERE br.user_id = :user_id AND br.status = 'Active'
-                  ORDER BY br.due_date";
+                  WHERE br.user_id = :user_id AND br.status = \'Active\'
+                  ORDER BY br.due_date';
         $stmt = $this->connection->prepare($query);
         $stmt->execute(['user_id' => $userId]);
         return $stmt->fetchAll();

@@ -7,7 +7,7 @@ var ManageBorrowingsView = {
     var tableBody = document.getElementById('borrowings-table-body');
 
     if (!borrowings || borrowings.length === 0) {
-      tableBody.innerHTML = '<tr><td colspan="7" class="text-center">No borrowings found</td></tr>';
+      tableBody.innerHTML = '<tr><td colspan="7" class="text-center">No borrowings found<\/td><\/tr>';
       return;
     }
 
@@ -29,7 +29,7 @@ var ManageBorrowingsView = {
         '<td>' + librarianName + '</td>' +
         '<td>' + (borrowing.borrow_date || 'N/A') + '</td>' +
         '<td>' + returnOrDue + '</td>' +
-        '<td><span class="badge ' + this.getStatusClass(borrowing.status, borrowing.due_date) + '">' + displayStatus + '</span></td>' +
+        '<td><span class="badge ' + this.getStatusClass(borrowing.status, borrowing.due_date) + '">' + displayStatus + '<\/span></td>' +
         '<td>' +
         '<button class="btn btn-sm btn-warning me-1" onclick="ManageBorrowingsController.editBorrowing(' + borrowing.id + ')">Edit</button>' +
         '<button class="btn btn-sm btn-danger" ' + deleteButtonDisabled + ' onclick="ManageBorrowingsController.deleteBorrowing(' + borrowing.id + ')" title="' + deleteButtonTitle + '">Delete</button>' +
@@ -56,7 +56,9 @@ var ManageBorrowingsView = {
     if (borrowing.book_title) return borrowing.book_title;
     if (borrowing.book && borrowing.book.title) return borrowing.book.title;
     if (borrowing.book_id) {
-      var book = books.find(function(b) { return b.id === borrowing.book_id; });
+      var book = books.find(function(b) {
+        return b.id === borrowing.book_id;
+      });
       return book ? book.title : 'Unknown Book';
     }
     return 'N/A';
@@ -68,7 +70,9 @@ var ManageBorrowingsView = {
       return borrowing.user.name + (borrowing.user.surname ? ' ' + borrowing.user.surname : '');
     }
     if (borrowing.user_id) {
-      var user = users.find(function(u) { return u.id === borrowing.user_id; });
+      var user = users.find(function(u) {
+        return u.id === borrowing.user_id;
+      });
       return user ? (user.name || '') + ' ' + (user.surname || '') : 'Unknown User';
     }
     return 'N/A';
@@ -80,7 +84,9 @@ var ManageBorrowingsView = {
       return borrowing.librarian.name + (borrowing.librarian.surname ? ' ' + borrowing.librarian.surname : '');
     }
     if (borrowing.librarian_id) {
-      var librarian = librarians.find(function(l) { return l.id === borrowing.librarian_id; });
+      var librarian = librarians.find(function(l) {
+        return l.id === borrowing.librarian_id;
+      });
       return librarian ? (librarian.name || '') + ' ' + (librarian.surname || '') : 'Unknown Librarian';
     }
     return 'N/A';
@@ -104,17 +110,17 @@ var ManageBorrowingsView = {
 
   populateBooksDropdown: function(dropdownId, books, selectedId) {
     var dropdown = document.getElementById(dropdownId);
-    var html = '<option value="">Select Book</option>';
+    var html = '<option value="">Select Book<\/option>';
 
     if (books && books.length > 0) {
       books.forEach(function(book) {
         if (dropdownId.includes('add') && book.status !== 'Available') {
           return;
         }
-        html += '<option value="' + book.id + '" ' + (book.id == selectedId ? 'selected' : '') + '>' + (book.title || 'Unknown') + '</option>';
+        html += '<option value="' + book.id + '" ' + (book.id == selectedId ? 'selected' : '') + '>' + (book.title || 'Unknown') + '<\/option>';
       });
     } else {
-      html = '<option value="">No books available</option>';
+      html = '<option value="">No books available<\/option>';
     }
 
     dropdown.innerHTML = html;
@@ -122,14 +128,14 @@ var ManageBorrowingsView = {
 
   populateUsersDropdown: function(dropdownId, users, selectedId) {
     var dropdown = document.getElementById(dropdownId);
-    var html = '<option value="">Select User</option>';
+    var html = '<option value="">Select User<\/option>';
 
     if (users && users.length > 0) {
       users.forEach(function(user) {
-        html += '<option value="' + user.id + '" ' + (user.id == selectedId ? 'selected' : '') + '>' + (user.name || '') + ' ' + (user.surname || '') + '</option>';
+        html += '<option value="' + user.id + '" ' + (user.id == selectedId ? 'selected' : '') + '>' + (user.name || '') + ' ' + (user.surname || '') + '<\/option>';
       });
     } else {
-      html = '<option value="">No users available</option>';
+      html = '<option value="">No users available<\/option>';
     }
 
     dropdown.innerHTML = html;
@@ -249,8 +255,8 @@ var ManageBorrowingsView = {
         '<span class="visually-hidden">Loading...</span>' +
         '</div>' +
         '<p class="mt-2">Loading borrowings...</p>' +
-        '</td>' +
-        '</tr>';
+        '<\/td>' +
+        '<\/tr>';
     }
   },
 
@@ -262,8 +268,8 @@ var ManageBorrowingsView = {
         '<h5>Error loading borrowings</h5>' +
         '<p>' + (message || 'Unknown error') + '</p>' +
         '<button class="btn btn-primary mt-2" onclick="ManageBorrowingsController.loadBorrowings()">Retry</button>' +
-        '</td>' +
-        '</tr>';
+        '<\/td>' +
+        '<\/tr>';
     }
   }
 };

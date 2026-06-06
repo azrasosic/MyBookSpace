@@ -42,6 +42,22 @@ var ProfileModel = {
     RestClient.get('users/' + userId + '/borrowing-history', successCallback, errorCallback);
   },
 
+  loadFavourites: function(userId, successCallback, errorCallback) {
+    RestClient.get('users/' + userId + '/favourites', successCallback, errorCallback);
+  },
+
+  removeFavourite: function(userId, bookId, successCallback, errorCallback) {
+    RestClient.delete('users/' + userId + '/favourites/' + bookId, {}, successCallback, errorCallback);
+  },
+
+  loadReservations: function(userId, successCallback, errorCallback) {
+    RestClient.get('users/' + userId + '/reservations', successCallback, errorCallback);
+  },
+
+  cancelReservation: function(reservationId, successCallback, errorCallback) {
+    RestClient.delete('reservations/' + reservationId, {}, successCallback, errorCallback);
+  },
+
   fetchAuthorName: function(authorId, successCallback, errorCallback) {
     if (this.authorCache[authorId]) {
       successCallback(this.authorCache[authorId]);

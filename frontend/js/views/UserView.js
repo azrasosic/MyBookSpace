@@ -39,44 +39,49 @@ var UserView = {
       var isLibrarian = UserModel.isLibrarian();
 
       if (isLibrarian) {
-        navHtml = '<li><a href="#books">Books</a></li>' +
+        navHtml = '<li><a href="#books">Books<\/a><\/li>' +
+          '<li><a href="#authors">Authors<\/a><\/li>' +
           '<li class="dropdown">' +
-          '<a href="#manage-books"><span>Admin Dashboard</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>' +
+          '<a href="#manage-books"><span>Admin Dashboard<\/span> <i class="bi bi-chevron-down toggle-dropdown"><\/i><\/a>' +
           '<ul>' +
-          '<li><a href="#manage-books">Manage Books</a></li>' +
-          '<li><a href="#manage-authors">Manage Authors</a></li>' +
-          '<li><a href="#manage-borrowings">Manage Borrowings</a></li>' +
-          '<li><a href="#manage-librarians">Manage Librarians</a></li>' +
-          '</ul>' +
-          '</li>' +
-          '<li><a href="#contact">About Us</a></li>' +
+          '<li><a href="#manage-books">Manage Books<\/a><\/li>' +
+          '<li><a href="#manage-authors">Manage Authors<\/a><\/li>' +
+          '<li><a href="#manage-borrowings">Manage Borrowings<\/a><\/li>' +
+          '<li><a href="#manage-librarians">Manage Librarians<\/a><\/li>' +
+          '<li><a href="#manage-users">Manage Users<\/a><\/li>' +
+          '<li><a href="#manage-reviews">Manage Reviews<\/a><\/li>' +
+          '<li><a href="#manage-reservations">Manage Reservations<\/a><\/li>' +
+          '<\/ul>' +
+          '<\/li>' +
+          '<li><a href="#contact">About Us<\/a><\/li>' +
           '<li class="dropdown">' +
-          '<a href="#profile"><span>' + (user.email || 'Account') + '</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>' +
+          '<a href="#profile"><span>' + (user.email || 'Account') + '<\/span> <i class="bi bi-chevron-down toggle-dropdown"><\/i><\/a>' +
           '<ul>' +
-          '<li><a href="#profile">Profile</a></li>' +
-          '<li><a href="#" onclick="UserController.logout()">Logout</a></li>' +
-          '</ul>' +
-          '</li>';
+          '<li><a href="#profile">Profile<\/a><\/li>' +
+          '<li><a href="#" onclick="UserController.logout()">Logout<\/a><\/li>' +
+          '<\/ul>' +
+          '<\/li>';
       } else {
-        navHtml = '<li><a href="#books">Books</a></li>' +
-          '<li><a href="#contact">About Us</a></li>' +
+        navHtml = '<li><a href="#books">Books<\/a><\/li>' +
+          '<li><a href="#authors">Authors<\/a><\/li>' +
+          '<li><a href="#contact">About Us<\/a><\/li>' +
           '<li class="dropdown">' +
-          '<a href="#profile"><span>' + (user.email || 'Account') + '</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>' +
+          '<a href="#profile"><span>' + (user.email || 'Account') + '<\/span> <i class="bi bi-chevron-down toggle-dropdown"><\/i><\/a>' +
           '<ul>' +
-          '<li><a href="#profile">Profile</a></li>' +
-          '<li><a href="#" onclick="UserController.logout()">Logout</a></li>' +
-          '</ul>' +
-          '</li>';
+          '<li><a href="#profile">Profile<\/a><\/li>' +
+          '<li><a href="#" onclick="UserController.logout()">Logout<\/a><\/li>' +
+          '<\/ul>' +
+          '<\/li>';
       }
     } else {
-      navHtml = '<li><a href="#contact">About Us</a></li>' +
+      navHtml = '<li><a href="#contact">About Us<\/a><\/li>' +
         '<li class="dropdown">' +
-        '<a href="#login"><span>Account</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>' +
+        '<a href="#login"><span>Account<\/span> <i class="bi bi-chevron-down toggle-dropdown"><\/i><\/a>' +
         '<ul>' +
-        '<li><a href="#register">Register</a></li>' +
-        '<li><a href="#login">Login</a></li>' +
-        '</ul>' +
-        '</li>';
+        '<li><a href="#register">Register<\/a><\/li>' +
+        '<li><a href="#login">Login<\/a><\/li>' +
+        '<\/ul>' +
+        '<\/li>';
     }
 
     navContainer.innerHTML = navHtml;

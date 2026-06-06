@@ -1,0 +1,34 @@
+<section id="authors-page" class="authors section">
+  <div class="container" data-aos="fade-up" data-aos-delay="100">
+    <h3 class="text-center mb-4">Browse Authors</h3>
+
+    <div class="text-center mb-4" id="author-alphabet-filter">
+      <button class="btn btn-sm btn-outline-secondary author-filter-btn active me-1 mb-1" data-letter="All">All</button>
+
+    </div>
+
+    <div id="author-cards-container" class="row gy-4">
+      <div class="text-center py-5">
+        <div class="spinner-border" role="status"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script type="text/javascript">
+  $(document).ready(function() {
+    if (typeof AuthorsController !== 'undefined') {
+      AuthorsController.init();
+    }
+
+    $(window).on('hashchange', function() {
+      if (window.location.hash.includes('#authors')) {
+        if (typeof AuthorsController !== 'undefined') {
+          setTimeout(function() {
+            AuthorsController.init();
+          }, 100);
+        }
+      }
+    });
+  });
+</script>
